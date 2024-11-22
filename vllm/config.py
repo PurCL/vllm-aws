@@ -1276,7 +1276,7 @@ def _get_and_verify_max_len(
         derived_max_model_len = default_max_len
 
     rope_scaling = getattr(hf_config, "rope_scaling", None)
-    if rope_scaling is not None and rope_scaling["type"] != "su":
+    if rope_scaling is not None and rope_scaling["rope_type"] != "su":
         if disable_sliding_window:
             # TODO(robertgshaw): Find a model that supports rope_scaling
             # with sliding window to see if this case should be allowed.
@@ -1286,7 +1286,7 @@ def _get_and_verify_max_len(
                 "investigate.")
         assert "factor" in rope_scaling
         scaling_factor = rope_scaling["factor"]
-        if rope_scaling["type"] == "yarn":
+        if rope_scaling["rope_type"] == "yarn":
             derived_max_model_len = rope_scaling[
                 "original_max_position_embeddings"]
         derived_max_model_len *= scaling_factor
